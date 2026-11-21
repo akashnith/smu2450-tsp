@@ -68,9 +68,13 @@ data arrives on whichever machine is running VS Code.
 
 | script | what it does |
 |---|---|
-| `reset-smu.tsp` | return the instrument to a known state |
-| `probe-contact-check.tsp` | confirm the probes are actually landed before a run |
-| `four-wire-setup.tsp` | four-wire (Kelvin) configuration |
+| `contact-check-2wire.tsp` | apply a small bias and confirm the probes are landed; two-wire |
+| `contact-check-4wire.tsp` | the same check in four-wire (Kelvin) sense |
+
+Both compare the measured current against a `min_threshold` and report a bad
+contact rather than letting you measure an open circuit all afternoon.
+There is no plain reset script: every script here calls `reset()` on its
+first line.
 
 ### `01-iv-characterisation`
 
@@ -84,7 +88,8 @@ data arrives on whichever machine is running VS Code.
 | `ultralow-current-sweep.tsp` | for devices in the high-resistance state |
 | `low-voltage-sweep.tsp` | sub-coercive sweeps |
 | `interactive-sweep.tsp` | prompts for parameters, writes to a USB stick |
-| `pulsed-iv.tsp` | 10 ms pulsed I-V |
+| `pulsed-iv.tsp` | 10 ms pulsed I-V over a fixed voltage sequence |
+| `pulse-train-trigger-model.tsp` | a pulse train built from trigger-model blocks rather than a software loop -- the instrument runs it unattended |
 | `dc-sweep-primary.tsp`, `nvm-sweep.tsp` | non-volatile memory sweep patterns |
 | `smart-scan-short-characterisation.tsp` | high-resolution short-device characterisation |
 | `memristor-sweep-error-protected.tsp` | two-wire rear-terminal sweep with error handling |
