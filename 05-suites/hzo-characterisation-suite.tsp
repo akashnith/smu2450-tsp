@@ -461,7 +461,7 @@ local function phase5_endurance()
             cycle_num, r_hrs, r_lrs, onoff_ratio, i_hrs, i_lrs))
         
         -- Log progress every 100 cycles
-        if cycle_num % 100 == 0 then
+        if cycle_num - math.floor(cycle_num / 100) * 100 == 0 then
             log_message("Completed " .. tostring(cycle_num) .. " cycles")
         end
         

@@ -234,7 +234,7 @@ local function M03_endurance_iv(n_cycles, v_max, step)
         end
         local i_hrs = vmeas(V_READ); local R_hrs = math.abs(calc_R(V_READ, i_hrs))
         f:write(string.format("%d,%.4e,%.4e,%.3f\n", cyc, R_lrs, R_hrs, R_hrs / R_lrs))
-        if (cyc % 100 == 0) then print("Cycle " .. cyc) end
+        if (cyc - math.floor(cyc / 100) * 100 == 0) then print("Cycle " .. cyc) end
     end
     f:close()
     smu_off()
@@ -253,7 +253,7 @@ local function M04_endurance_pulse(n_cycles, read_every)
     for cyc = 1, n_cycles do
         pulse(V_SET, T_PW, T_OFF)
         pulse(V_RST, T_PW, T_OFF)
-        if (cyc % read_every == 0) then
+        if (cyc - math.floor(cyc / read_every) * read_every == 0) then
             pulse(V_SET, T_PW, T_OFF)
             local i_lrs = vmeas(V_READ)
             pulse(V_RST, T_PW, T_OFF)
@@ -431,11 +431,11 @@ local function M13_operational_stability(total_spikes, v_amp, dt_ms, report_ever
     smu_init()
     for k = 1, total_spikes / 2 do
         pulse(v_amp, dt_ms * 1e-3, dt_ms * 1e-3)
-        if (k % report_every == 0) then f:write("POT," .. k .. "," .. vmeas(V_READ) / V_READ .. "\n") end
+        if (k - math.floor(k / report_every) * report_every == 0) then f:write("POT," .. k .. "," .. vmeas(V_READ) / V_READ .. "\n") end
     end
     for k = 1, total_spikes / 2 do
         pulse(-v_amp, dt_ms * 1e-3, dt_ms * 1e-3)
-        if (k % report_every == 0) then f:write("DEP," .. k .. "," .. vmeas(V_READ) / V_READ .. "\n") end
+        if (k - math.floor(k / report_every) * report_every == 0) then f:write("DEP," .. k .. "," .. vmeas(V_READ) / V_READ .. "\n") end
     end
     f:close(); smu_off()
 end
