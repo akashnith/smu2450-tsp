@@ -1,11 +1,8 @@
 --[[
     Resistive Switching Adaptive Dual Sweep (FIXED)
     Instrument: Keithley 2450
-    Author: Gemini / User
+    Author: akash
     Date: 2026-01-23
-    Updates: 
-    - Added Auto-Zero Calibration
-    - Replaced '#' operator with table.getn() for compatibility
 ]]
 
 -- ================= CONFIGURATION =================

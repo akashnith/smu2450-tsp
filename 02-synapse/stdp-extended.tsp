@@ -1,7 +1,7 @@
 -- STDP (Spike-Timing-Dependent Plasticity) Measurement
 -- Pre-Post and Post-Pre spike pairs with varying time intervals
 -- Compatible with Keithley 2450 TSP
--- Min pulse width: 2ms
+-- Min pulse width: 5ms
 
 reset()
 
@@ -16,7 +16,7 @@ local pre_amplitude = 0.6 -- Pre-synaptic spike voltage
 local post_amplitude = 0.6 -- Post-synaptic spike voltage
 local pulse_width = 0.005 -- 5ms pulse width
 local read_voltage = 0.1 -- Read voltage
-local read_delay = 0.002 -- 2ms
+local read_delay = 0.005 -- 5ms
 local compliance = 1e-4
 
 -- Time intervals between pre and post spikes (in seconds)
@@ -28,8 +28,6 @@ local delta_t_values = {
     0.020,   -- +20ms
     0.010,   -- +10ms
     0.005,   -- +5ms
-    0.002,   -- +2ms (minimum)
-    -0.002,  -- -2ms
     -0.005,  -- -5ms
     -0.010,  -- -10ms
     -0.020,  -- -20ms

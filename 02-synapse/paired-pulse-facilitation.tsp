@@ -1,7 +1,7 @@
 -- PPF (Paired-Pulse Facilitation) Measurement
 -- Two identical pulses with varying inter-pulse intervals
 -- Compatible with Keithley 2450 TSP
--- Min pulse width: 2ms
+-- Min pulse width: 5 ms
 
 reset()
 
@@ -15,12 +15,11 @@ smu.measure.terminals = smu.TERMINALS_REAR
 local pulse_amplitude = 1.5 -- Pulse voltage
 local pulse_width = 0.005 -- 5ms pulse width
 local read_voltage = 0.1 -- Read voltage
-local read_delay = 0.002 -- 2ms
+local read_delay = 0.005 -- 5ms
 local compliance = 1e-3
 
 -- Inter-pulse intervals (time between first and second pulse)
 local inter_pulse_intervals = {
-    0.002,   -- 2ms (minimum)
     0.005,   -- 5ms
     0.010,   -- 10ms
     0.020,   -- 20ms

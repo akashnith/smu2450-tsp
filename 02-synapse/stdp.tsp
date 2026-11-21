@@ -13,8 +13,7 @@ local current_limit = 0.001          -- Compliance (A)
 
 -- Time intervals to test (ms converted to seconds)
 local delta_t_values = {
-    -50e-3, -20e-3, -10e-3, -5e-3, -2e-3, -1e-3,  -- LTD (pre before post)
-    1e-3, 2e-3, 5e-3, 10e-3, 20e-3, 50e-3         -- LTP (post before pre)
+    -50e-3, -20e-3, -10e-3, -5e-3, 5e-3, 10e-3, 20e-3, 50e-3         -- LTP (post before pre)
 }
 
 local num_repeats = 3  -- Repeat each Δt for statistics

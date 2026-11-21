@@ -6,7 +6,6 @@
 reset()
 errorqueue.clear()
 
--- 1. FIX: Correct command for 2450 Rear Terminals
 if smu.terminals then
     smu.terminals = smu.TERMINALS_REAR
 end
@@ -15,7 +14,7 @@ end
 local stimulus_voltage = 2.0       -- Suprathreshold stimulus (V)
 local stimulus_width = 20e-3       -- 20ms stimulus
 local read_voltage = 0.1           -- Read voltage (V)
-local sampling_interval = 1e-3     -- 1ms sampling
+local sampling_interval = 5e-3     -- 5ms sampling
 local compliance_depol = 100e-6    -- Depolarization compliance
 local compliance_repol = 100e-3    -- Repolarization compliance
 

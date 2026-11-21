@@ -6,7 +6,7 @@ reset()
 -- =====================================================================
 
 -- DEVICE INFORMATION
-local device_id = "ALD14_Sym)_W_Dev1"  -- Change for each device
+local device_id = "sample_name_device_id"  -- Change for each device
 local n_cycles = 1  -- Number of repetitions
 
 -- FILE PATHS

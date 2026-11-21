@@ -1,80 +1,105 @@
-# TSP scripts — Keithley 2450 SourceMeter
+# smu2450-tsp
 
-Lua (TSP) measurement scripts for a **Keithley 2450 SourceMeter**, used to
-characterise memristive and ferroelectric devices: DC and pulsed I-V,
-synaptic plasticity (LTP/LTD, STDP, PPF), neuron-like dynamics, and the
-leakage and tunnelling measurements that go with them.
+**TSP-Lua scripts** for the **Keithley 2450 SourceMeter® SMU**. Scripts run on the instrument's Test Script Processor (TSP®), so sweeps, pulse sequences and triggered measurements execute with on-instrument timing instead of PC-limited command latency.
+
+33 scripts for characterising memristive and ferroelectric devices: DC and pulsed I-V, synaptic plasticity (LTP/LTD, STDP, PPF), neuron-like dynamics, and all-in-one characterisation suites.
+
+![TSP-Lua](https://img.shields.io/badge/TSP--Lua-on--instrument-blue) ![instrument](https://img.shields.io/badge/instrument-Keithley%202450-orange) ![scripts](https://img.shields.io/badge/scripts-33-blueviolet) ![license](https://img.shields.io/badge/license-MIT-green)
 
 Device under test in most of these: **Mo / Hf(Sr,Ti)O₂ / TiN** on Si.
 
 ---
 
-## Working with TSP Lua in VS Code
+## Instrument
 
-Install the **[TSP Toolkit extension for Visual Studio Code](https://www.tek.com/en/datasheet/tsp-toolkit-visual-studio-code-extension)**
-from Tektronix/Keithley. It gives you:
+| | |
+|---|---|
+| **Model** | Keithley 2450 Graphical SourceMeter® SMU (Tektronix / Keithley) |
+| **Type** | 1-channel, 4-quadrant source measure unit, 200 V, 1 A, 20 W |
+| **Resolution / accuracy** | 6½-digit, 0.012 % basic measure accuracy; 20 mV and 10 nA source/measure ranges |
+| **Programming modes** | Native 2450 SCPI, 2400-compatible SCPI, and **TSP® scripting** (Lua-based) |
+| **Interfaces** | USB, GPIB, Ethernet (LXI); TSP-Link® for multi-unit setups |
+| **Triggering** | TriggerFlow, built-in trigger model and digital I/O |
 
-- autocomplete and inline help for the whole `smu.*`, `buffer.*`,
-  `trigger.*` command set, driven by the instrument libraries it ships
-- syntax checking against the instrument's own Lua dialect
-- a terminal that connects straight to the 2450 over USB or LAN, so you can
-  send a script and watch its `print()` output without any other software
+The Test Script Processor lets complete test programs be stored in non-volatile memory and executed on the instrument, and keeps TSP-based legacy and multi-unit workflows possible through TSP-Link.
 
-`.vscode/settings.json` here is already configured for it — it points the
-Lua language server at the 2450 command libraries and declares the TSP-Link
-node layout. If autocomplete stops working, the paths in
-`Lua.workspace.library` are the first thing to check: they contain the
-extension's version number and go stale when it updates.
+**Links**
+- Keithley / Tektronix product family: <https://www.tek.com/keithley>
+- TSP Toolkit for VS Code: <https://www.tek.com/en/datasheet/tsp-toolkit-visual-studio-code-extension>
+- KickStart control software: <https://www.tek.com/en/products/keithley/keithley-control-software-bench-instruments/kickstart>
+- Tektronix software & firmware downloads: <https://www.tek.com/en/products/software>
+- 2450 Reference Manual (TSP command reference) and datasheet: search "2450" on the Tektronix Keithley page above.
+
+---
+
+## Requirements
+
+- A Keithley 2450 with the command set set to **TSP** — front panel: *System → Settings → Command Set*. These scripts will not run under either SCPI mode.
+- A connection by USB (USB-TMC), LAN or GPIB.
+- **[TSP Toolkit for Visual Studio Code](https://www.tek.com/en/datasheet/tsp-toolkit-visual-studio-code-extension)** to edit and send them.
+
+Nothing else. These are instrument-side scripts: there is no host program, no Python and no VISA layer to install. The instrument does the measuring and prints its results back to whatever terminal sent the script.
+
+---
+
+## Working in VS Code
+
+The TSP Toolkit extension gives you autocomplete and inline help across the
+whole `smu.*`, `buffer.*` and `trigger.*` command set, syntax checking
+against the instrument's own Lua dialect, and a terminal that connects
+directly to the 2450.
+
+`.vscode/settings.json` here is already configured for it: it points the Lua
+language server at the 2450 command libraries and declares the TSP-Link node
+layout. If autocomplete stops working, check `Lua.workspace.library` first —
+those paths contain the extension's version number and go stale when it
+updates.
 
 ### Running a script
 
-1. Connect the 2450 over USB. It appears as
-   `USB0::0x05E6::0x2450::<serial>::INSTR`.
-2. Open the script, then **TSP: Connect** from the command palette and pick
-   the instrument.
-3. Send the file to the instrument and run it. Anything the script
-   `print()`s comes back in the terminal; that is how most of these report
-   their data.
+1. Connect the 2450. Over USB it appears as `USB0::0x05E6::0x2450::<serial>::INSTR`.
+2. **TSP: Connect** from the command palette, then pick the instrument.
+3. Send the open file to the instrument. Whatever the script `print()`s comes back in the terminal — that is how most of these return their data.
+
+Without VS Code: copy a script to a USB drive and run it from the front panel, or paste it into KickStart's script editor.
 
 ---
 
 ## Two things that will bite you
 
 **TSP runs Lua 5.0, not 5.1.** The `%` modulo operator does not exist — it
-was added in Lua 5.1. Use `math.mod(a, b)` or
-`a - math.floor(a / b) * b` instead. This fails at *compile* time on the
-instrument, so a script using `%` never starts at all.
+arrived in Lua 5.1. Use `math.mod(a, b)` or `a - math.floor(a / b) * b`.
+This fails when the script is *compiled* on the instrument, so a script
+using `%` never starts at all.
 
-**`io.*` and `file.*` are different things.** `io.open` writes to the
+**`io.*` and `file.*` go to different places.** `io.open` writes to the
 controlling PC through the TSP Toolkit terminal; `file.open` writes to a USB
 stick in the instrument's front panel. Most scripts here use `io`, so the
-data arrives on whichever machine is running VS Code.
+data lands on whichever machine is running VS Code.
 
 ---
 
-## Layout
+## What is here
 
-| folder | what is in it |
-|---|---|
-| `00-setup/` | reset the SMU, check probe contact, four-wire configuration |
-| `01-iv-characterisation/` | DC and pulsed I-V sweeps, from a basic sweep to multi-range cycling |
-| `02-synapse/` | potentiation and depression, multilevel states, STDP, paired-pulse facilitation |
-| `03-neuron/` | leaky integrate-and-fire, Hodgkin–Huxley-inspired, refractory period |
-| `04-materials/` | leakage, insulation resistance, tunnelling transport, FET I-V |
-| `05-suites/` | all-in-one scripts that run a full characterisation in one go |
-| `archive/` | earlier iterations kept for reference; not maintained |
+```
+smu2450-tsp/
+├── 00-setup/                 contact checks, before you measure anything
+├── 01-iv-characterisation/   DC and pulsed I-V
+├── 02-synapse/               plasticity protocols
+├── 03-neuron/                neuron-like dynamics
+├── 04-suites/                unattended all-in-one runs
+├── .vscode/settings.json     TSP Toolkit configuration
+└── README.md
+```
 
-### `00-setup`
+### `00-setup` — before anything else
 
 | script | what it does |
 |---|---|
-| `contact-check-2wire.tsp` | apply a small bias and confirm the probes are landed; two-wire |
+| `contact-check-2wire.tsp` | apply a small bias, compare the current against a threshold, report a bad contact |
 | `contact-check-4wire.tsp` | the same check in four-wire (Kelvin) sense |
 
-Both compare the measured current against a `min_threshold` and report a bad
-contact rather than letting you measure an open circuit all afternoon.
-There is no plain reset script: every script here calls `reset()` on its
-first line.
+Every script calls `reset()` on its first line, so there is no separate reset script.
 
 ### `01-iv-characterisation`
 
@@ -82,17 +107,17 @@ first line.
 |---|---|
 | `dc-sweep-basic.tsp` | the simplest working DC sweep; start here |
 | `dual-sweep.tsp` | 0 → +V → 0 → −V → 0 |
-| `triple-phase-dual-sweep.tsp` | dual sweeps at three voltage ranges, logging straight to the PC |
+| `triple-phase-dual-sweep.tsp` | dual sweeps at three voltage ranges, logging to a USB stick |
 | `multi-range-dual-sweep.tsp` | several ranges in one run |
 | `multi-range-dual-sweep-cycles.tsp` | the same, repeated for *n* cycles |
 | `ultralow-current-sweep.tsp` | for devices in the high-resistance state |
 | `low-voltage-sweep.tsp` | sub-coercive sweeps |
 | `interactive-sweep.tsp` | prompts for parameters, writes to a USB stick |
-| `pulsed-iv.tsp` | 10 ms pulsed I-V over a fixed voltage sequence |
-| `pulse-train-trigger-model.tsp` | a pulse train built from trigger-model blocks rather than a software loop -- the instrument runs it unattended |
+| `pulsed-iv.tsp` | 10 ms pulses over a fixed voltage sequence |
+| `pulse-train-trigger-model.tsp` | a pulse train built from trigger-model blocks rather than a software loop, so the instrument runs it unattended |
 | `dc-sweep-primary.tsp`, `nvm-sweep.tsp` | non-volatile memory sweep patterns |
 | `smart-scan-short-characterisation.tsp` | high-resolution short-device characterisation |
-| `memristor-sweep-error-protected.tsp` | two-wire rear-terminal sweep with error handling |
+| `memristor-sweep-error-protected.tsp` | two-wire rear-terminal sweep with error handling, using `smu.source.sweeplinear` |
 
 ### `02-synapse`
 
@@ -102,7 +127,7 @@ first line.
 | `potentiation-depression-protocol.tsp` | the basic protocol |
 | `potentiation-depression-multicycle.tsp` | repeated cycles |
 | `potentiation-depression-full.tsp` | the longest version, with analysis |
-| `potentiation-32-state-retention.tsp` | 32 conductance states, 10 s retention per state |
+| `potentiation-32-state-retention.tsp` | 32 conductance states, 10 s retention each |
 | `ltp-stp-multistate.tsp` | long- and short-term plasticity in one run |
 | `conductance-linearity.tsp` | how linear the weight update is |
 | `paired-pulse-facilitation.tsp` | PPF against pulse interval |
@@ -114,42 +139,90 @@ first line.
 |---|---|
 | `leaky-integrate-and-fire.tsp` | LIF dynamics from a threshold-switching device |
 | `hodgkin-huxley-inspired.tsp` | Hodgkin–Huxley-style excitability |
-| `refractory-period.tsp` | recovery time after firing |
+| `refractory-period.tsp` | recovery after firing, across a set of inter-stimulus intervals |
 
-### `04-materials`
+### `04-suites`
 
-| script | what it does |
-|---|---|
-| `leakage-current.tsp` | leakage at fixed bias |
-| `insulation-resistance.tsp` | insulation resistance |
-| `low-resistance-100-readings.tsp` | 100 low-resistance readings, sourcing current |
-| `tunnelling-transport.tsp` | tunnelling transport study |
-| `fet-iv-characteristics.tsp` | FET I-V, uses TSP-Link with a second instrument |
-
-### `05-suites`
-
-Run a whole characterisation unattended. Read the configuration block at the
-top of each before using it — they apply a lot of stress to a device.
+Run a whole characterisation unattended. Read the configuration block at the top of each before using it.
 
 | script | what it does |
 |---|---|
 | `hzo-characterisation-suite.tsp` | the full HZO memristor suite |
 | `memristor-suite-rear-terminal.tsp` | rear-terminal variant |
 | `hsto-memristor-suite.tsp` | Hf(Sr,Ti)O₂ synapse suite |
-| `hzo-ferroelectric-neuromorphic-suite.tsp` | ferroelectric + neuromorphic combined |
-| `hsto-laptop-capture-suite.tsp` | logs to the PC rather than a USB stick |
+| `hzo-ferroelectric-neuromorphic-suite.tsp` | ferroelectric and neuromorphic combined |
 
 ---
 
-## Before you run anything
+## A script, end to end
 
-Set the **current compliance** for the device, not for the measurement you
-hope to get. These scripts drive real voltage into a real stack, and a
-forming step is not reversible.
+`01-iv-characterisation/dc-sweep-basic.tsp`, trimmed:
 
-Check which terminals a script selects — several switch to the **rear**
+```lua
+reset()
+smu.measure.terminals = smu.TERMINALS_REAR
+
+smu.source.func         = smu.FUNC_DC_VOLTAGE
+smu.source.autorange    = smu.ON
+smu.source.ilimit.level = 1e-4            -- compliance: set this for the device
+smu.measure.func        = smu.FUNC_DC_CURRENT
+smu.measure.autorange   = smu.ON
+smu.source.output       = smu.ON
+
+for v = 0, 1.0, 0.1 do
+    smu.source.level = v
+    delay(0.01)
+    local i = smu.measure.read()
+    print(string.format("%.3f,%.6e", v, i))
+end
+
+smu.source.level  = 0
+smu.source.output = smu.OFF
+```
+
+Parameter names follow the 2450 TSP command set; confirm against the Reference Manual for your firmware version.
+
+---
+
+## Safety
+
+Set the source **limit** before enabling the output, and set it for the
+device rather than for the measurement you hope to get. Forming is not
+reversible.
+
+Check which terminals a script selects. Most of these switch to the **rear**
 terminals in their first lines, and a script expecting rear terminals while
 your probes are on the front measures an open circuit.
 
-The suites in `05-suites/` cycle devices thousands of times. Run them on a
+Every script here ends by driving the source to zero and turning the output
+off. Keep it that way: **a script running on the instrument keeps executing
+if the PC disconnects.**
+
+The suites in `04-suites/` cycle devices thousands of times. Run them on a
 device you are prepared to wear out.
+
+---
+
+## Roadmap
+
+- [ ] Pulse sequences with finer timing through TriggerFlow
+- [ ] Multi-unit scripts over TSP-Link
+- [ ] A PyVISA host layer to upload scripts, fetch buffers and save CSV
+- [ ] Hooks so a GUI can launch these scripts directly
+
+---
+
+## AI assistance
+
+Parts of this project were developed with help from AI tools (Google Gemini and Anthropic Claude) for initial scaffolding, debugging, and drafting this README. The author is responsible for the code and its validation.
+
+## Author
+
+**Akash Prajapati**, DEMAND Lab, Department of Materials Engineering, Indian Institute of Science (IISc) Bengaluru.
+Portfolio: <https://akashnith.github.io>
+
+## License
+
+MIT. See `LICENSE`.
+
+*Keithley, SourceMeter, TSP and TSP-Link are trademarks of Tektronix / Keithley Instruments. This project is independent and not affiliated with or endorsed by Tektronix.*

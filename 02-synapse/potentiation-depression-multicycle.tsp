@@ -4,12 +4,12 @@ reset()
 -- ===== SELECT REAR TERMINALS =====
 smu.measure.terminals = smu.TERMINALS_REAR
 
--- ===== PARAMETERS =====
+-- ===== Sample PARAMETERS =====
 local potentiation_voltage = 0.01
 local depression_voltage = -0.01
-local pulse_width = 10e-3          -- 100 microseconds
+local pulse_width = 10e-3          -- 10 ms
 local read_voltage = 0.01
-local inter_pulse_delay = 1e-3
+local inter_pulse_delay = 10e-3
 local current_limit = 0.0001
 
 local pulses_per_phase = 64         -- Pulses in each phase

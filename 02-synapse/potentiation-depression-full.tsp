@@ -1,7 +1,8 @@
 -- Potentiation & Depression Measurement
 -- 4 Test Cases: Fixed Amp, Incremental V, Incremental Pulse, Logarithmic V
 -- Compatible with Keithley 2450 TSP
--- Min pulse width: 2ms
+-- Min pulse width: 5ms
+-- Use for more than 5 ms time operation , these are software and digited pulse creation works okay above 10ms
 
 reset()
 

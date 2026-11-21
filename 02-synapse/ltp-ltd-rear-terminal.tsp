@@ -13,7 +13,7 @@ local num_cycles = 32
 local current_limit = 0.0001
 
 -- Data file with fallback
-local filename = "/usb1/ALD13S_ltp_ltd_data.csv"
+local filename = "/usb1/sample_ltp_ltd_data.csv"
 local file = io.open(filename, "w")
 
 if not file then

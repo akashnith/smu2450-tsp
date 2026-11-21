@@ -1,8 +1,6 @@
 -- ============================================================================
 -- FILE   : HfSrTiO2_Measurements_2450.tsp
 -- INSTR  : Keithley 2450 SourceMeter (TSP / Lua)
--- DEVICE : Mo / Hf(Sr,Ti)O2 / TiN / a-SiO2 / Si  memristive synapse
--- REF    : Bakhit et al., Sci. Adv. 12, eaec2324 (2026)
 -- ============================================================================
 
 reset()
@@ -505,7 +503,6 @@ end
 print("========================================")
 print("  HfSrTiO2 Neuromorphic Measurement Suite")
 print("  Keithley 2450  |  TSP Script")
-print("  Ref: Bakhit et al. Sci.Adv. 2026")
 print("  All data saved to USB → /usb1/")
 print("========================================")
 print("Sample ID : " .. SAMPLE_ID)

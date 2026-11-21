@@ -1,6 +1,5 @@
 -- ==================================================================
 -- LIF (LEAKY INTEGRATE-AND-FIRE) NEURON EMULATION
--- Fixed for Keithley 2450
 -- ==================================================================
 
 reset()
@@ -13,7 +12,7 @@ end
 
 -- ===== LIF PARAMETERS =====
 local input_voltage = 0.5          -- Input spike amplitude (V)
-local spike_width = 10e-6          -- 10us spike width
+local spike_width = 10e-3          -- 10ms spike width
 local inter_spike_interval = 50e-3 -- 50ms between spikes
 local read_voltage = 0.1           -- Read voltage (V)
 local threshold_conductance = 500  -- Firing threshold (uS)

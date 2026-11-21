@@ -2,15 +2,15 @@
 reset()
 errorqueue.clear() -- Clear previous errors
 
--- Configuration
+-- Configuration , change configuration according to sample behaviour 
 smu.measure.terminals = smu.TERMINALS_REAR -- Ensure connections are on Rear
 local start_v = 0.01
 local end_v = 0.15
 local num_states = 4
 local pulse_w = 10e-3
-local read_v = 0.01
-local retention_time = 10     -- 10 seconds
-local read_interval = 1     -- Read every 0.5s
+local read_v = 0.01            
+local retention_time = 10     -- 10 seconds change for more retention time 
+local read_interval = 1     -- Read every 1s
 
 -- Calculate step size
 local v_step = (end_v - start_v) / (num_states - 1)
