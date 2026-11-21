@@ -2,11 +2,56 @@
 
 **TSP-Lua scripts** for the **Keithley 2450 SourceMeter® SMU**. Scripts run on the instrument's Test Script Processor (TSP®), so sweeps, pulse sequences and triggered measurements execute with on-instrument timing instead of PC-limited command latency.
 
-33 scripts for characterising memristive and ferroelectric devices: DC and pulsed I-V, synaptic plasticity (LTP/LTD, STDP, PPF), neuron-like dynamics, and all-in-one characterisation suites.
+33 working scripts for characterising memristive and ferroelectric devices -- DC and pulsed I-V, synaptic plasticity (LTP/LTD, STDP, PPF), neuron-like dynamics, and all-in-one suites -- kept as a **reference for the syntax**, so you can write your own for whatever you need to measure.
 
-![TSP-Lua](https://img.shields.io/badge/TSP--Lua-on--instrument-blue) ![instrument](https://img.shields.io/badge/instrument-Keithley%202450-orange) ![scripts](https://img.shields.io/badge/scripts-33-blueviolet) ![license](https://img.shields.io/badge/license-MIT-green)
+![TSP-Lua](https://img.shields.io/badge/TSP--Lua-on--instrument-blue) ![instrument](https://img.shields.io/badge/instrument-Keithley%202450-orange) ![scripts](https://img.shields.io/badge/scripts-33-blueviolet) ![reference](https://img.shields.io/badge/use-reference%20%2B%20runnable-informational) ![license](https://img.shields.io/badge/license-MIT-green)
 
 Device under test in most of these: **Mo / Hf(Sr,Ti)O₂ / TiN** on Si.
+
+---
+
+## What this is for
+
+A **reference collection**, as much as a set of runnable measurements. Each
+script is a worked example of the TSP-Lua idioms you need in order to write
+your own: configuring source and measure functions, setting compliance,
+choosing terminals, building loops and pulse trains, reading a value back,
+and getting the data off the instrument.
+
+Read two or three of these and you can write a script for almost any
+measurement the 2450 is capable of. The grammar is small; what takes time is
+knowing which `smu.*` attribute does what, and in what order they have to be
+set. That is what these are here to show.
+
+### Using them on other Keithley instruments
+
+TSP is the scripting language across much of Keithley's range, so the
+structure here carries over. **How much of the code carries over depends on
+the family:**
+
+| instrument | what transfers |
+|---|---|
+| **2450, 2460, 2461, 2470** touchscreen SourceMeters | Nearly all of it. These share the same `smu.source.*` / `smu.measure.*` command set, so most scripts run after changing only the voltage and current values. |
+| **Series 2600B** SourceMeters | The language, the trigger-model concepts, the buffer handling and the script structure. **Not the command names** — the 2600B addresses channels as `smua.*` / `smub.*` with a different attribute set (`smua.source.levelv`, `smua.measure.i()`). |
+| **DMM6500, DAQ6510, 3706A** | The same again: Lua, buffers, trigger model and the general shape of a script. Measurement commands live under `dmm.*` and there is no source, so sourcing scripts have no direct equivalent. |
+
+Every one of these scripts uses only `smu.*`, `trigger.*` and `display.*`,
+which is why the 2450/2460/2461/2470 family is close to a drop-in.
+
+### The limits are not the same instrument to instrument
+
+A script that is safe on one model can destroy a device on another. The 2450
+is 200 V / 1 A / 20 W; the 2460 and 2461 trade voltage for current, and the
+2470 goes to much higher voltage at lower current. Before running anything
+here on a different model, check **both** against that instrument's
+datasheet:
+
+- the **voltage and current levels** the script sources, and
+- the **compliance limit**, which is what actually protects the device.
+
+A compliance value that is conservative on one model can be far above what
+your device survives on another. Set it for the device, not for the
+instrument.
 
 ---
 
