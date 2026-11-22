@@ -1,4 +1,4 @@
--- Memristor I-V Sweep (2-Wire Rear) - Error Protected
+-- Memristor I-V Sweep (2-Wire Rear)
 reset()
 defbuffer1.clearstatistics()
 

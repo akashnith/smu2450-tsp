@@ -1,12 +1,9 @@
--- =======================================================
 -- NVM Resistive Switching Characterization (Fresh Start)
 -- Hardware: Keithley 2450
--- =======================================================
 
 reset()
 
 -- 1. SETUP & CONFIGURATION
--- ========================
 local sample_name = "NVM_Device_01"
 smu.measure.terminals = smu.TERMINALS_REAR
 smu.source.func = smu.FUNC_DC_VOLTAGE
@@ -32,7 +29,6 @@ local rates = {
 }
 
 -- 2. CORE SWEEP FUNCTION
--- ======================
 function run_dual_sweep(v_target, step_size, delay_time, speed_name, is_pos_first)
     
     -- Generate Filename
@@ -104,7 +100,6 @@ function run_dual_sweep(v_target, step_size, delay_time, speed_name, is_pos_firs
 end
 
 -- 3. MAIN EXECUTION LOOP
--- ======================
 print("=== NVM Characterization Started ===")
 
 -- Loop 1: Iterate Sweep Rates

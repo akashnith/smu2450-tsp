@@ -1,9 +1,7 @@
 
 reset()
 
--- =====================================================================
 -- GLOBAL CONFIGURATION
--- =====================================================================
 
 -- DEVICE INFORMATION
 local device_id = "sample_name_device_id"  -- Change for each device
@@ -26,9 +24,7 @@ local sweep_delay = 0.02  -- 20ms delay for low current settling
 local read_voltage = 0.0001  -- 100µV read voltage
 local read_delay = 0.01  -- 10ms read delay
 
--- =====================================================================
 -- HELPER FUNCTIONS
--- =====================================================================
 
 local function log_message(message)
     local timestamp = os.date("%Y-%m-%d %H:%M:%S")
@@ -76,10 +72,8 @@ local function read_resistance(read_v, read_d)
     return current, resistance
 end
 
--- =====================================================================
 -- LOW VOLTAGE DUAL SWEEP I-V
 -- Organized by compliance groups
--- =====================================================================
 
 local function low_voltage_iv_sweep()
     log_message("========== LOW VOLTAGE I-V CHARACTERIZATION ==========")
@@ -224,9 +218,7 @@ local function low_voltage_iv_sweep()
     return true
 end
 
--- =====================================================================
 -- POTENTIATION & DEPRESSION (Low Voltage)
--- =====================================================================
 
 local function low_voltage_potentiation()
     log_message("========== LOW VOLTAGE POTENTIATION & DEPRESSION ==========")
@@ -275,9 +267,7 @@ local function low_voltage_potentiation()
     return true
 end
 
--- =====================================================================
 -- STDP (Low Voltage)
--- =====================================================================
 
 local function low_voltage_stdp()
     log_message("========== LOW VOLTAGE STDP MEASUREMENT ==========")
@@ -348,9 +338,7 @@ local function low_voltage_stdp()
     return true
 end
 
--- =====================================================================
 -- PPF (Low Voltage)
--- =====================================================================
 
 local function low_voltage_ppf()
     log_message("========== LOW VOLTAGE PPF MEASUREMENT ==========")
@@ -413,9 +401,7 @@ local function low_voltage_ppf()
     return true
 end
 
--- =====================================================================
 -- MAIN EXECUTION
--- =====================================================================
 
 print("========================================================================")
 print("LOW VOLTAGE HIGH PRECISION HZO MEMRISTOR CHARACTERIZATION")

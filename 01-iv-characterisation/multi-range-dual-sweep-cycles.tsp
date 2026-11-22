@@ -39,7 +39,7 @@ local sweep_configs = {
 
 -- ===== GENERAL PARAMETERS =====
 local sweep_delay = 0.01
-local base_filename = "/usb1/dual_sweep_iv_ALD15Symmetric_"
+local base_filename = "/usb1/dual_sweep_iv_sample_"
 
 -- ===== CONFIGURE SMU =====
 smu.source.func = smu.FUNC_DC_VOLTAGE

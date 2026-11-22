@@ -5,7 +5,7 @@ reset()
 smu.measure.terminals = smu.TERMINALS_REAR
 
 -- ===== GLOBAL PARAMETERS =====
-local base_path = "/usb1/ALD15S"  -- USB path
+local base_path = "/usb1/sample"  -- USB path
 local current_limit = 0.01   -- Global current compliance (A)
 local timestamp = os.date("%Y%m%d_%H%M%S")
 
@@ -25,9 +25,7 @@ else
     base_path = ""
 end
 
--- ============================================================================
 -- MEASUREMENT 1: DC I-V SWEEP
--- ============================================================================
 print("\n[1/5] Starting DC I-V Sweep...")
 
 local function run_dc_iv()
@@ -98,9 +96,7 @@ end
 
 run_dc_iv()
 
--- ============================================================================
 -- MEASUREMENT 2: PULSE I-V
--- ============================================================================
 print("\n[2/5] Starting Pulse I-V Measurement...")
 
 local function run_pulse_iv()
@@ -150,9 +146,7 @@ end
 
 run_pulse_iv()
 
--- ============================================================================
 -- MEASUREMENT 3: LTP/LTD (Potentiation/Depression)
--- ============================================================================
 print("\n[3/5] Starting LTP/LTD Measurement...")
 
 local function run_ltp_ltd()
@@ -228,9 +222,7 @@ end
 
 run_ltp_ltd()
 
--- ============================================================================
 -- MEASUREMENT 4: STDP (Spike-Timing-Dependent Plasticity)
--- ============================================================================
 print("\n[4/5] Starting STDP Measurement...")
 
 local function run_stdp()
@@ -317,9 +309,7 @@ end
 
 run_stdp()
 
--- ============================================================================
 -- MEASUREMENT 5: RETENTION TEST
--- ============================================================================
 print("\n[5/5] Starting Retention Test...")
 
 local function run_retention()
@@ -394,9 +384,7 @@ local function run_multilevel_retention()
         file:write("Time_s,State,Program_V,Current_A,Conductance_S\n")
     end
 
-    -- ===============================
     -- PARAMETERS
-    -- ===============================
     local num_states     = 16
     local v_start        = 0.8
     local v_end          = 1.5
@@ -409,9 +397,7 @@ local function run_multilevel_retention()
 
     local dv = (v_end - v_start) / (num_states - 1)
 
-    -- ===============================
     -- SMU CONFIGURATION
-    -- ===============================
     smu.source.func = smu.FUNC_DC_VOLTAGE
     smu.source.autorange = smu.ON
     smu.source.ilimit.level = current_limit
@@ -422,9 +408,7 @@ local function run_multilevel_retention()
 
     print("Time(s), State, Program_V, Current(A), Conductance(S)")
 
-    -- ===============================
     -- LOOP OVER STATES
-    -- ===============================
     for state = 1, num_states do
 
         local program_voltage = v_start + (state - 1) * dv
@@ -434,25 +418,19 @@ local function run_multilevel_retention()
             state, num_states, program_voltage
         ))
 
-        -- -------------------------------
         -- RESET (baseline)
-        -- -------------------------------
         smu.source.level = reset_voltage
         delay(reset_width)
         smu.source.level = 0
         delay(0.1)
 
-        -- -------------------------------
         -- PROGRAM STATE
-        -- -------------------------------
         smu.source.level = program_voltage
         delay(pulse_width)
         smu.source.level = 0
         delay(0.05)
 
-        -- -------------------------------
         -- RETENTION MEASUREMENT
-        -- -------------------------------
         local start_time = os.clock()
 
         for _, interval in ipairs(read_intervals) do
@@ -482,9 +460,7 @@ local function run_multilevel_retention()
         delay(0.5)
     end
 
-    -- ===============================
     -- CLEANUP
-    -- ===============================
     smu.source.output = smu.OFF
 
     if file then
@@ -495,9 +471,7 @@ end
 
 run_multilevel_retention()
 
--- ============================================================================
 -- MEASUREMENT SUITE COMPLETE
--- ============================================================================
 print("\n========================================")
 print("ALL MEASUREMENTS COMPLETE!")
 print("Finished at: " .. os.date("%Y-%m-%d %H:%M:%S"))

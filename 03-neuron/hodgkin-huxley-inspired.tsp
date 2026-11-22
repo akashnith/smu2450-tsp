@@ -1,7 +1,5 @@
--- ==================================================================
 -- HODGKIN-HUXLEY INSPIRED ACTION POTENTIAL
 -- Corrected for Keithley 2450
--- ==================================================================
 
 reset()
 errorqueue.clear()
@@ -39,9 +37,7 @@ print("Time(ms), Conductance(uS), Phase")
 
 local current_time = 0
 
--- ==================================================================
 -- PHASE 1: RESTING STATE
--- ==================================================================
 smu.source.ilimit.level = compliance_repol
 smu.source.level = -1.5
 delay(0.2)
@@ -64,9 +60,7 @@ for i = 1, 50 do
     delay(sampling_interval)
 end
 
--- ==================================================================
 -- PHASE 2: DEPOLARIZATION (RISING PHASE)
--- ==================================================================
 print("--- Depolarization ---")
 
 -- Apply Stimulus
@@ -95,9 +89,7 @@ for i = 1, 100 do
     delay(sampling_interval)
 end
 
--- ==================================================================
 -- PHASE 3: REPOLARIZATION (FALLING PHASE)
--- ==================================================================
 print("--- Repolarization ---")
 
 -- Apply Hyperpolarizing Pulse
@@ -125,9 +117,7 @@ for i = 1, 150 do
     delay(sampling_interval)
 end
 
--- ==================================================================
 -- PHASE 4: REFRACTORY PERIOD
--- ==================================================================
 print("--- Refractory ---")
 
 -- Measure (200ms) - FIX: Use Integer Modulo

@@ -13,7 +13,7 @@ local sweep_delay = 0.01          -- Delay between points (s)
 local current_limit = 0.0001       -- Compliance (A)
 
 -- ===== DATA FILE =====
-local filename = "/usb1/ultralow_dual_sweep_iv_ALD15_TiPt_02.csv"
+local filename = "/usb1/ultralow_dual_sweep_iv_sample.csv"
 local file = io.open(filename, "w")
 
 if not file then

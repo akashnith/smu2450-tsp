@@ -1,7 +1,5 @@
--- ==================================================================
 -- TEST 11: CONDUCTANCE LINEARITY
 -- Fixed-amplitude pulse train for potentiation/depression
--- ==================================================================
 
 reset()
 

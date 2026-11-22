@@ -1,6 +1,4 @@
--- ==================================================================
 -- LIF (LEAKY INTEGRATE-AND-FIRE) NEURON EMULATION
--- ==================================================================
 
 reset()
 errorqueue.clear()
@@ -49,9 +47,7 @@ local current_time = 0
 local fired = false
 local final_spike_count = 0
 
--- ==================================================================
 -- PHASE 1: INTEGRATION (INPUT SPIKES)
--- ==================================================================
 for spike = 1, max_spikes do
     
     if fired then break end
@@ -92,9 +88,7 @@ for spike = 1, max_spikes do
     end
 end
 
--- ==================================================================
 -- PHASE 2: LEAK OBSERVATION
--- ==================================================================
 print("Observing leak/decay phase...")
 
 -- FIX: Replaced float loop with integer loop

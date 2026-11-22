@@ -1,12 +1,9 @@
--- =======================================================
--- SMART SCAN V4: High-Res Short Characterization
+-- SMART SCAN High-Res Short Characterization
 -- Hardware: Keithley 2450
--- =======================================================
 
 reset()
 
 -- 1. CONFIGURATION
--- ================
 local base_name = "SmartScan_HighRes" 
 smu.measure.terminals = smu.TERMINALS_REAR
 smu.source.func = smu.FUNC_DC_VOLTAGE
@@ -28,7 +25,6 @@ smu.measure.autorange = smu.ON
 smu.measure.nplc = 1.0       -- 1 PLC (Low Noise)
 
 -- 2. HELPER: DIAGNOSTIC CHECK
--- ===========================
 function check_sample_status()
     smu.source.output = smu.ON
     smu.source.level = v_short_target -- Check at 100mV
@@ -43,7 +39,6 @@ function check_sample_status()
 end
 
 -- 3. HELPER: GENERIC DUAL SWEEP
--- =============================
 function run_dual_sweep_points(f, v_target, step_size, tag_prefix)
     -- Dual Sweep: 0 -> +V -> 0 -> -V -> 0
     local legs = {
@@ -78,7 +73,6 @@ function run_dual_sweep_points(f, v_target, step_size, tag_prefix)
 end
 
 -- 4. HELPER: RESET ATTEMPT
--- ========================
 function perform_reset_attempt(f, v_target, attempt_name)
     print(string.format("   >> %s: Sweeping to %.2f V...", attempt_name, v_target))
     local end_i = 0
@@ -98,7 +92,6 @@ function perform_reset_attempt(f, v_target, attempt_name)
 end
 
 -- 5. MAIN LOGIC
--- =============
 function find_switching_window(sample_id)
     local fname = string.format("/usb1/%s_ID%03d.csv", base_name, sample_id)
     local f = io.open(fname, "w")
@@ -185,5 +178,4 @@ function find_switching_window(sample_id)
 end
 
 -- 6. RUN
--- ======
 find_switching_window(1)

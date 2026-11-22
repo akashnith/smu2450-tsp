@@ -1,15 +1,11 @@
--- ============================================================================
 -- FILE   : HfSrTiO2_Measurements_2450.tsp
 -- INSTR  : Keithley 2450 SourceMeter (TSP / Lua)
--- ============================================================================
 
 reset()
 
--- ============================================================================
 --  GLOBAL CONFIGURATION
--- ============================================================================
 local USB             = "/usb1/"
-local SAMPLE_ID       = "HZO_ALD15tipt_10nm"
+local SAMPLE_ID       = "sample"
 
 smu.measure.terminals = smu.TERMINALS_REAR
 
@@ -30,9 +26,7 @@ local T_OFF           = 5e-3
 local RETENTION_MAX   = 1000
 local RETENTION_INT   = 1
 
--- ============================================================================
 --  LOW-LEVEL SMU HELPERS
--- ============================================================================
 
 local function smu_init(compliance)
     compliance              = compliance or I_COMPL
@@ -93,9 +87,7 @@ local function banner(title)
     print("================================================")
 end
 
--- ============================================================================
 --  MEASUREMENT FUNCTIONS
--- ============================================================================
 
 local function M01_basic_iv(n_cycles, v_max, step)
     n_cycles   = 100
@@ -494,11 +486,7 @@ local function M15_M16_stdp(similar_pol, n_avg, v_peak, delta_t_list)
     f:close(); smu_off()
 end
 
-
--- ============================================================================
 --  MAIN EXECUTION SEQUENCE
-
--- ============================================================================
 
 print("========================================")
 print("  HfSrTiO2 Neuromorphic Measurement Suite")
@@ -557,7 +545,6 @@ M15_M16_stdp(true, 50, 1.0, { -60, -40, -20, -10, -5, -2, -1, 1, 2, 5, 10, 20, 4
 -- ── M16 : STDP – opposite polarity ───────────────────────────────────────────
 M15_M16_stdp(false, 50, 1.0, { -60, -40, -20, -10, -5, -2, -1, 1, 2, 5, 10, 20, 40, 60 })
 
--- ============================================================================
 smu.source.level  = 0
 smu.source.output = smu.OFF
 
@@ -567,4 +554,3 @@ print("  ALL MEASUREMENTS COMPLETE")
 print("  Data saved to USB  /usb1/")
 print("  Safe to disconnect device.")
 print("========================================")
--- ============================================================================

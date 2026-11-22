@@ -16,7 +16,7 @@ local pulses_per_phase = 64         -- Pulses in each phase
 local num_cycles = 50                -- Number of full cycles
 
 -- ===== DATA FILE =====
-local filename = "/usb1/ALsD13S_multi_cycle_ltp_ltd.csv"
+local filename = "/usb1/sample_multi_cycle_ltp_ltd.csv"
 local file = io.open(filename, "w")
 
 if not file then

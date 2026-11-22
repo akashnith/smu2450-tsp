@@ -1,5 +1,5 @@
 --[[
-    Resistive Switching Adaptive Dual Sweep (FIXED)
+    Resistive Switching Adaptive Dual Sweep
     Instrument: Keithley 2450
     Author: akash
     Date: 2026-01-23
@@ -52,7 +52,7 @@ end
 function run_sweep_list(v_list, icc, tag_str)
     smu.source.ilimit.level = icc
     
-    -- FIXED LINE: Used table.getn() instead of # operator
+    -- TSP Lua 5.0 has no # length operator; use table.getn()
     local v_max_debug = math.abs(v_list[math.floor(table.getn(v_list)/4) + 1])
     print("Running Sweep: " .. tag_str .. " | Vmax: " .. string.format("%.3f", v_max_debug) .. " | Icc: " .. icc)
     

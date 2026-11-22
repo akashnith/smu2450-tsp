@@ -1,7 +1,5 @@
--- ==================================================================
 -- REFRACTORY PERIOD MEASUREMENT
 -- Test responsiveness to second stimulus at various intervals
--- ==================================================================
 
 reset()
 

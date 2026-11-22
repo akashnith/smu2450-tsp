@@ -1,4 +1,4 @@
--- LTP/LTD with Rear Terminal + Data Save (FIXED)
+-- LTP/LTD with Rear Terminal + Data Save
 reset()
 
 -- ===== SELECT REAR TERMINALS FIRST =====

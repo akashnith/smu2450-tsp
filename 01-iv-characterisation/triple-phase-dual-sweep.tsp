@@ -1,15 +1,11 @@
--- ================================================================
 -- SMU 2450: Triple-Phase Dual-Sweep I-V Measurement
 -- Dual sweeps: 0→V→0→-V→0 for three voltage ranges
 -- Direct USB data logging without buffering
--- ================================================================
 
 reset()
 errorqueue.clear()
 
--- ================================================================
 -- CONFIGURATION
--- ================================================================
 
 -- USB file paths (modify as needed)
 local file_phase1 = "/usb1/phase1_ultralow.csv"
@@ -52,9 +48,7 @@ local phase3_ranges = {
 local num_points = 101  -- Points per sweep segment
 local delay = 0.01      -- 10ms delay between points
 
--- ================================================================
 -- HELPER FUNCTIONS
--- ================================================================
 
 -- Open file and write CSV header
 local function open_file(filepath)
@@ -160,9 +154,7 @@ local function execute_phase(phase_name, sweep_configs, filepath)
     return true
 end
 
--- ================================================================
 -- MAIN EXECUTION
--- ================================================================
 
 print("========================================")
 print("SMU 2450: Triple-Phase Dual-Sweep")

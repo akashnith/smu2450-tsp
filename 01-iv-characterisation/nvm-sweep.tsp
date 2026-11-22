@@ -1,14 +1,11 @@
 
--- =======================================================
 -- HIGH-RES NVM CHARACTERIZATION (Microvolt Steps)
 -- Hardware: Keithley 2450
--- =======================================================
 
 reset()
 
 -- 1. SETUP
--- ========
-local sample_name = "NVM_Device_ALD14_TiPt_01"
+local sample_name = "sample"
 smu.measure.terminals = smu.TERMINALS_REAR
 smu.source.func = smu.FUNC_DC_VOLTAGE
 
@@ -31,7 +28,6 @@ local sweep_list = {
 local ideal_delay = 0.01 
 
 -- 2. CORE FUNCTION
--- ================
 function run_dual_sweep(v_target, step_size, is_pos_first)
     
     local dir_tag = is_pos_first and "PosFirst" or "NegFirst"
@@ -97,7 +93,6 @@ function run_dual_sweep(v_target, step_size, is_pos_first)
 end
 
 -- 3. EXECUTION
--- ============
 print("=== High-Res NVM Characterization ===")
 
 for _, cfg in ipairs(sweep_list) do

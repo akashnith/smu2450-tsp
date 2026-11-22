@@ -1,4 +1,4 @@
--- 32-State Potentiation with 10s Retention (Sanitized)
+-- 32-State Potentiation with 10s Retention
 reset()
 errorqueue.clear() -- Clear previous errors
 
@@ -16,8 +16,8 @@ local read_interval = 1     -- Read every 1s
 local v_step = (end_v - start_v) / (num_states - 1)
 
 -- File Setup (USB1 priority, fallback to local)
-local file_pot_path = "/usb1/ald13uspot_32.csv"
-local file_ret_path = "/usb1/ald13usret_32.csv"
+local file_pot_path = "/usb1/sample_pot_32.csv"
+local file_ret_path = "/usb1/sample_ret_32.csv"
 
 -- check if usb1 exists, otherwise write to local
 if not io.open("/usb1/", "r") then

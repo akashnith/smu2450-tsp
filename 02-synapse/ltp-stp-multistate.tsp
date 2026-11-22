@@ -1,23 +1,20 @@
--- ========================================================================
 -- SIMPLE POTENTIATION/DEPRESSION WITH RETENTION TEST
 -- 10 pulses followed by 100s retention measurement
 -- Compatible with Keithley 2450 TSP
--- ========================================================================
 
 reset()
 
--- =====================================================================
 -- CONFIGURATION - MODIFY THESE PARAMETERS
--- =====================================================================
 
 -- DEVICE INFO
-local device_id = "ALD13S"
+local device_id = "sample"
 local test_type = "potentiation"  -- "potentiation" or "depression"
 
 -- FILE PATH
 local filename = "/usb1/my_test_data.csv" -- CORRECT
 -- TERMINAL SELECTION
--- FIX 1: Correct 2450 syntax is smu.terminals (not smu.measure.terminals)
+-- NOTE: this script uses smu.terminals; most others here use
+-- smu.measure.terminals. Confirm which your firmware accepts.
 smu.terminals = smu.TERMINALS_REAR
 
 -- PULSE PARAMETERS
@@ -34,9 +31,7 @@ local read_delay = 0.002  -- Read delay (2ms)
 local retention_time = 10  -- Total retention time (100s)
 local read_interval = 1  -- Read every 1 second
 
--- =====================================================================
 -- MAIN PROGRAM
--- =====================================================================
 
 print("========================================================================")
 print("POTENTIATION/DEPRESSION WITH RETENTION TEST")
@@ -69,9 +64,7 @@ file:write("Phase,Pulse_Number,Time_s,Voltage_V,Current_A,Resistance_Ohm,Conduct
 print("Starting measurement...")
 print("")
 
--- =====================================================================
 -- PHASE 1: POTENTIATION/DEPRESSION (10 PULSES)
--- =====================================================================
 
 print("PHASE 1: Applying " .. tostring(num_pulses) .. " pulses")
 print("---")
@@ -119,9 +112,7 @@ print("")
 print("Potentiation phase complete!")
 print("")
 
--- =====================================================================
 -- PHASE 2: RETENTION (100 SECONDS)
--- =====================================================================
 
 print("PHASE 2: Retention measurement for " .. tostring(retention_time) .. " seconds")
 print("Reading every " .. tostring(read_interval) .. " second(s)")
@@ -157,7 +148,7 @@ for read_num = 1, retention_reads do
     file:write(string.format("Retention,0,%.6e,%.6e,%.6e,%.6e,%.6e\n",
         elapsed, read_voltage, current, resistance, conductance))
     
-    -- FIX 2: Replaced % operator with math.mod() for compatibility
+    -- TSP Lua 5.0 has no % operator; use math.mod()
     if math.mod(read_num, 10) == 0 or read_num == 1 then
         print(string.format("  t = %d s: I = %.3e A, R = %.3e Ω", 
             math.floor(elapsed), current, resistance))

@@ -1,14 +1,10 @@
--- ========================================================================
 -- COMPLETE HZO MEMRISTOR CHARACTERIZATION SUITE
 -- All-in-one measurement script for neuromorphic device testing
 -- Compatible with Keithley 2450 TSP
--- ========================================================================
 
 reset()
 
--- =====================================================================
 -- GLOBAL CONFIGURATION - MODIFY THESE PARAMETERS
--- =====================================================================
 
 -- DEVICE INFORMATION
 local device_id = "TiPt_FE-HZO_W_Dev1"  -- Change for each device
@@ -25,9 +21,7 @@ smu.measure.terminals = smu.TERMINALS_REAR
 local max_voltage = 3.0  -- Absolute maximum voltage
 local max_current = 10e-4  -- Absolute maximum current (10mA)
 
--- =====================================================================
 -- HELPER FUNCTIONS
--- =====================================================================
 
 local function log_message(message)
     local timestamp = os.date("%Y-%m-%d %H:%M:%S")
@@ -75,9 +69,7 @@ local function read_resistance(read_voltage, read_delay)
     return current, resistance
 end
 
--- =====================================================================
 -- PHASE 1: BASIC I-V CHARACTERIZATION
--- =====================================================================
 
 local function phase1_basic_iv()
     log_message("========== PHASE 1: BASIC I-V CHARACTERIZATION ==========")
@@ -169,9 +161,7 @@ local function phase1_basic_iv()
     return true
 end
 
--- =====================================================================
 -- PHASE 2: POTENTIATION & DEPRESSION
--- =====================================================================
 
 local function phase2_potentiation_depression()
     log_message("========== PHASE 2: POTENTIATION & DEPRESSION ==========")
@@ -271,9 +261,7 @@ local function phase2_potentiation_depression()
     return true
 end
 
--- =====================================================================
 -- PHASE 3: STDP MEASUREMENT
--- =====================================================================
 
 local function phase3_stdp()
     log_message("========== PHASE 3: STDP MEASUREMENT ==========")
@@ -345,9 +333,7 @@ local function phase3_stdp()
     return true
 end
 
--- =====================================================================
 -- PHASE 4: PPF MEASUREMENT
--- =====================================================================
 
 local function phase4_ppf()
     log_message("========== PHASE 4: PPF MEASUREMENT ==========")
@@ -414,9 +400,7 @@ local function phase4_ppf()
     return true
 end
 
--- =====================================================================
 -- PHASE 5: ENDURANCE TEST
--- =====================================================================
 
 local function phase5_endurance()
     log_message("========== PHASE 5: ENDURANCE TEST ==========")
@@ -473,9 +457,7 @@ local function phase5_endurance()
     return true
 end
 
--- =====================================================================
 -- PHASE 6: RETENTION TEST
--- =====================================================================
 
 local function phase6_retention()
     log_message("========== PHASE 6: RETENTION TEST ==========")
@@ -528,9 +510,7 @@ local function phase6_retention()
     return true
 end
 
--- =====================================================================
 -- MAIN EXECUTION
--- =====================================================================
 
 print("========================================================================")
 print("HZO MEMRISTOR COMPLETE CHARACTERIZATION SUITE")

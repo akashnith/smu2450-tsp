@@ -7,7 +7,6 @@
 -- 1. Reset and Configure
 reset()
 
-
 local test_voltage = 1 --00 mV
 local limit_current = 1e-6   -- 100 uA compliance
 local min_threshold = 50e-9    -- 50 nA (Below this = Bad Contact)
