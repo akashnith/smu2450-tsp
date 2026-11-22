@@ -281,12 +281,8 @@ device you are prepared to wear out.
 
 ## AI assistance
 
-Parts of this project were developed with help from AI tools (Google Gemini and Anthropic Claude) for initial scaffolding, debugging, and drafting this README. The author is responsible for the code and its validation.
+Parts of this project were developed with help from AI tools (Google Gemini and Anthropic Claude) for initial scaffolding, debugging, and drafting this README.
 
-## Author
-
-**Akash Prajapati**, DEMAND Lab, Department of Materials Engineering, Indian Institute of Science (IISc) Bengaluru.
-Portfolio: <https://akashnith.github.io>
 
 ## License
 
