@@ -2,11 +2,34 @@
 
 **TSP-Lua scripts** for the **Keithley 2450 SourceMeter® SMU**. Scripts run on the instrument's Test Script Processor (TSP®), so sweeps, pulse sequences and triggered measurements execute with on-instrument timing instead of PC-limited command latency.
 
-33 working scripts for characterising memristive and ferroelectric devices -- DC and pulsed I-V, synaptic plasticity (LTP/LTD, STDP, PPF), neuron-like dynamics, and all-in-one suites -- kept as a **reference for the syntax**, so you can write your own for whatever you need to measure.
+32 working scripts for **DC and pulsed I-V**, **resistive switching**, and the **synapse and neuron protocols that fit a millisecond timescale** -- kept as a **reference for the syntax**, so you can write your own for whatever you need to measure.
 
-![TSP-Lua](https://img.shields.io/badge/TSP--Lua-on--instrument-blue) ![instrument](https://img.shields.io/badge/instrument-Keithley%202450-orange) ![scripts](https://img.shields.io/badge/scripts-33-blueviolet) ![reference](https://img.shields.io/badge/use-reference%20%2B%20runnable-informational) ![license](https://img.shields.io/badge/license-MIT-green)
+![TSP-Lua](https://img.shields.io/badge/TSP--Lua-on--instrument-blue) ![instrument](https://img.shields.io/badge/instrument-Keithley%202450-orange) ![scripts](https://img.shields.io/badge/scripts-32-blueviolet) ![reference](https://img.shields.io/badge/use-reference%20%2B%20runnable-informational) ![license](https://img.shields.io/badge/license-MIT-green)
 
 Device under test in most of these: **Mo / Hf(Sr,Ti)O₂ / TiN** on Si.
+
+### What a 2450 can and cannot measure here
+
+It is a **DC source measure unit**. Everything in this repository is built
+from stepping a level, waiting, and taking a reading, so the floor on any
+pulse or interval is set by how fast the instrument can settle and measure
+-- **a few milliseconds**. The shortest pulse used anywhere here is 5 ms;
+most synapse and neuron protocols run at **10-20 ms**.
+
+That is enough for resistive switching, conductance update, retention and
+the slow end of neuron-like dynamics. It is **not** enough for:
+
+- **Ferroelectric polarization measurements** -- P-V loops, PUND, switching
+  speed. These need a fast triangular or pulse drive at kilohertz rates with
+  the displacement current integrated over the ramp. A DC SMU cannot
+  generate that waveform or integrate charge against it, so no script here
+  attempts one. That work needs a dedicated ferroelectric tester, or a
+  waveform generator and fast measurement unit such as a B1530A WGFMU.
+- **Sub-microsecond switching kinetics**, for the same reason.
+
+If a measurement needs an edge faster than a few milliseconds, it does not
+belong on this instrument, and a script that appears to do it is really
+measuring the SMU's own settling.
 
 ---
 
@@ -156,7 +179,7 @@ Every script calls `reset()` on its first line, so there is no separate reset sc
 | `multi-range-dual-sweep.tsp` | several ranges in one run |
 | `multi-range-dual-sweep-cycles.tsp` | the same, repeated for *n* cycles |
 | `ultralow-current-sweep.tsp` | for devices in the high-resistance state |
-| `low-voltage-sweep.tsp` | sub-coercive sweeps |
+| `low-voltage-sweep.tsp` | small-signal sweeps below the switching threshold, for reading state without disturbing it |
 | `interactive-sweep.tsp` | prompts for parameters, writes to a USB stick |
 | `pulsed-iv.tsp` | 10 ms pulses over a fixed voltage sequence |
 | `pulse-train-trigger-model.tsp` | a pulse train built from trigger-model blocks rather than a software loop, so the instrument runs it unattended |
@@ -192,10 +215,9 @@ Run a whole characterisation unattended. Read the configuration block at the top
 
 | script | what it does |
 |---|---|
-| `hzo-characterisation-suite.tsp` | the full HZO memristor suite |
+| `hzo-characterisation-suite.tsp` | I-V characterisation followed by potentiation and depression, in one run |
 | `memristor-suite-rear-terminal.tsp` | rear-terminal variant |
-| `hsto-memristor-suite.tsp` | Hf(Sr,Ti)O₂ synapse suite |
-| `hzo-ferroelectric-neuromorphic-suite.tsp` | ferroelectric and neuromorphic combined |
+| `hsto-memristor-suite.tsp` | Hf(Sr,Ti)O₂ synapse suite: switching, conductance update and retention |
 
 ---
 
