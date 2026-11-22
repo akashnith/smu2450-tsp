@@ -1,7 +1,4 @@
-# Normalise line endings to LF inside the repository, and check out whatever
-# is native to the platform. Without this, committing from Windows git and
-# from WSL git in turn rewrites every line of every file, and a one-character
-# change arrives as a 5000-line diff.
+
 * text=auto
 
 *.tsp  text
@@ -9,5 +6,5 @@
 *.md   text diff=markdown
 *.json text
 
-# Measurement output, if any ever gets committed deliberately.
+
 *.csv  text eol=lf
